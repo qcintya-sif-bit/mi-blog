@@ -1,0 +1,1894 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Palabra de Dios — Versículos según tu emoción</title>
+    <meta name="description" content="Encuentra versículos bíblicos para cada emoción: alegría, tristeza, ansiedad, fe y más." />
+    
+    <!-- Fuentes Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet" />
+
+    <style>
+        /* ===== ESTILOS COMPLETOS ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html,
+        body {
+            background: #0a0a12;
+            color: rgba(255, 255, 255, 0.9);
+            font-family: 'Cormorant Garamond', serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        #particles {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .bg-glow {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background: radial-gradient(ellipse at 50% 40%, rgba(212, 168, 67, 0.10) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .cross-watermark {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 40vw;
+            color: rgba(255, 255, 255, 0.018);
+            font-family: 'Cinzel Decorative', serif;
+            pointer-events: none;
+            z-index: 0;
+            user-select: none;
+            animation: breathe 6s ease-in-out infinite;
+        }
+        @keyframes breathe {
+            0%,
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.018;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.04);
+                opacity: 0.028;
+            }
+        }
+        .beam {
+            position: fixed;
+            top: 0;
+            width: 1px;
+            height: 100vh;
+            background: linear-gradient(180deg, transparent, rgba(212, 168, 67, 0.08), transparent);
+            pointer-events: none;
+            z-index: 0;
+            animation: beamPulse 6s ease-in-out infinite;
+        }
+        .beam:nth-child(1) {
+            left: 18%;
+            animation-delay: 0s;
+        }
+        .beam:nth-child(2) {
+            left: 50%;
+            animation-delay: 2s;
+        }
+        .beam:nth-child(3) {
+            left: 82%;
+            animation-delay: 4s;
+        }
+        @keyframes beamPulse {
+            0%,
+            100% {
+                opacity: 0.25;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+        .wrapper {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            width: 100%;
+            background: rgba(10, 10, 18, 0.82);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid rgba(212, 168, 67, 0.18);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2.5rem;
+            height: 72px;
+            animation: slideDown 0.8s ease both;
+        }
+        .navbar-brand {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 0.85rem;
+            letter-spacing: 0.25em;
+            color: #d4a843;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            white-space: nowrap;
+            text-transform: uppercase;
+        }
+        .brand-logo {
+            font-size: 2rem;
+            filter: drop-shadow(0 0 12px rgba(212, 168, 67, 0.6));
+            animation: logoFloat 6s ease-in-out infinite;
+            display: inline-block;
+            line-height: 1;
+        }
+        @keyframes logoFloat {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-4px);
+            }
+        }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            list-style: none;
+            gap: 0.3rem;
+        }
+        .nav-links>li {
+            position: relative;
+        }
+        .nav-links>li>a,
+        .nav-links>li>button {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 0.62rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+            transition: color 0.3s, background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            white-space: nowrap;
+        }
+        .nav-links>li>a:hover,
+        .nav-links>li>button:hover,
+        .nav-links>li.open>button {
+            color: #f0c96a;
+            background: rgba(212, 168, 67, 0.1);
+        }
+        .nav-arrow {
+            font-size: 0.5rem;
+            transition: transform 0.3s;
+            display: inline-block;
+        }
+        .nav-links>li.open .nav-arrow {
+            transform: rotate(180deg);
+        }
+        .dropdown {
+            position: absolute;
+            top: calc(100% + 10px);
+            left: 50%;
+            transform: translateX(-50%) translateY(-8px);
+            min-width: 220px;
+            background: rgba(10, 10, 20, 0.96);
+            border: 1px solid rgba(212, 168, 67, 0.2);
+            border-radius: 16px;
+            padding: 0.6rem 0;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s, transform 0.3s;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(20px);
+            z-index: 200;
+        }
+        .nav-links>li.open .dropdown {
+            opacity: 1;
+            pointer-events: all;
+            transform: translateX(-50%) translateY(0);
+        }
+        .dropdown a,
+        .dropdown button {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            width: 100%;
+            padding: 0.7rem 1.3rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.78);
+            text-decoration: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.25s;
+            text-align: left;
+        }
+        .dropdown a:hover,
+        .dropdown button:hover {
+            color: #f0c96a;
+            background: rgba(212, 168, 67, 0.08);
+            padding-left: 1.7rem;
+        }
+        .dropdown-icon {
+            font-size: 1.15rem;
+        }
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+        }
+        .hamburger span {
+            display: block;
+            width: 26px;
+            height: 2px;
+            background: #d4a843;
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+        .hamburger.open span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        .hamburger.open span:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger.open span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+        .mobile-drawer {
+            position: fixed;
+            top: 72px;
+            left: 0;
+            right: 0;
+            background: rgba(8, 8, 18, 0.97);
+            border-bottom: 1px solid rgba(212, 168, 67, 0.2);
+            z-index: 99;
+            padding: 1rem 0 1.5rem;
+            transform: translateY(-110%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(20px);
+            display: none;
+        }
+        .mobile-drawer.open {
+            transform: translateY(0);
+        }
+        .mobile-drawer button,
+        .mobile-drawer a {
+            display: flex;
+            align-items: center;
+            gap: 0.9rem;
+            width: 100%;
+            padding: 0.9rem 2rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.15rem;
+            color: rgba(255, 255, 255, 0.82);
+            text-decoration: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+        }
+        .mobile-drawer button:hover,
+        .mobile-drawer a:hover {
+            color: #f0c96a;
+            background: rgba(212, 168, 67, 0.07);
+        }
+        .drawer-section {
+            display: block;
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 0.55rem;
+            letter-spacing: 0.32em;
+            color: #d4a843;
+            opacity: 0.7;
+            padding: 0.8rem 2rem 0.3rem;
+            text-transform: uppercase;
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            position: relative;
+            min-height: 92vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            padding: 4rem 1.5rem 3rem;
+        }
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+        }
+        .hero-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.35;
+            animation: heroKen 20s ease-in-out infinite alternate;
+        }
+        @keyframes heroKen {
+            from {
+                transform: scale(1.05) translateY(0);
+            }
+            to {
+                transform: scale(1.15) translateY(-2%);
+            }
+        }
+        .hero-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(10, 10, 18, 0.6) 0%, rgba(10, 10, 18, 0.85) 60%, #0a0a12 100%);
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+            animation: fadeIn 1.2s ease both;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .verse-of-day {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: rgba(212, 168, 67, 0.1);
+            border: 1px solid rgba(212, 168, 67, 0.3);
+            border-radius: 50px;
+            padding: 0.45rem 1.3rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.95rem;
+            font-style: italic;
+            color: #f0c96a;
+            margin-bottom: 1.8rem;
+            animation: fadeIn 1s ease 0.2s both;
+        }
+        .verse-of-day .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #f0c96a;
+            box-shadow: 0 0 10px #f0c96a;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%,
+            100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.4;
+            }
+        }
+        .header-eyebrow {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 0.65rem;
+            letter-spacing: 0.55em;
+            color: #d4a843;
+            text-transform: uppercase;
+            margin-bottom: 1.2rem;
+            opacity: 0.8;
+            animation: fadeIn 1s ease 0.3s both;
+        }
+        h1.hero-title {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: clamp(2.2rem, 6vw, 5rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, #f0c96a 0%, #d4a843 40%, #fff8e7 70%, #d4a843 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.1;
+            filter: drop-shadow(0 0 40px rgba(212, 168, 67, 0.4));
+            animation: shimmer 5s linear infinite;
+            background-size: 200% auto;
+        }
+        @keyframes shimmer {
+            0% {
+                background-position: 0% center;
+            }
+            100% {
+                background-position: 200% center;
+            }
+        }
+        .subtitle {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+            color: rgba(255, 255, 255, 0.65);
+            margin-top: 1rem;
+            font-weight: 300;
+            max-width: 640px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeIn 1s ease 0.5s both;
+        }
+        .header-stats {
+            display: flex;
+            justify-content: center;
+            gap: 2.5rem;
+            margin-top: 2.4rem;
+            flex-wrap: wrap;
+            animation: fadeIn 1s ease 0.7s both;
+        }
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.2rem;
+        }
+        .stat-number {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: clamp(1.3rem, 3vw, 2rem);
+            font-weight: 700;
+            color: #f0c96a;
+        }
+        .stat-label {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.82rem;
+            color: rgba(255, 255, 255, 0.45);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+        .stat-sep {
+            width: 1px;
+            height: 44px;
+            background: rgba(212, 168, 67, 0.25);
+            align-self: center;
+        }
+        .scroll-cue {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #d4a843;
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 0.55rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            opacity: 0.7;
+            animation: bounce 2.4s ease-in-out infinite;
+        }
+        @keyframes bounce {
+            0%,
+            100% {
+                transform: translate(-50%, 0);
+            }
+            50% {
+                transform: translate(-50%, 8px);
+            }
+        }
+
+        /* ===== SECTIONS ===== */
+        .section {
+            padding: 5rem 1.5rem;
+            position: relative;
+        }
+        .section-eyebrow {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 0.6rem;
+            letter-spacing: 0.5em;
+            text-transform: uppercase;
+            color: #d4a843;
+            text-align: center;
+            opacity: 0.7;
+            margin-bottom: 0.8rem;
+        }
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.8rem, 4.5vw, 3rem);
+            text-align: center;
+            background: linear-gradient(135deg, #fff8e7, #d4a843);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        .section-sub {
+            text-align: center;
+            max-width: 620px;
+            margin: 0 auto 3rem;
+            font-style: italic;
+            color: rgba(255, 255, 255, 0.55);
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        .divider {
+            width: 220px;
+            height: 1px;
+            margin: 2rem auto;
+            background: linear-gradient(90deg, transparent, #d4a843, transparent);
+            position: relative;
+        }
+        .divider::before {
+            content: '✦';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #d4a843;
+            font-size: 0.85rem;
+            background: #0a0a12;
+            padding: 0 10px;
+        }
+        .question {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.3rem, 3vw, 1.9rem);
+            color: rgba(255, 255, 255, 0.88);
+            text-align: center;
+            margin-bottom: 2.5rem;
+            font-style: italic;
+        }
+
+        /* ===== EMOTION GRID ===== */
+        .emotion-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1.2rem;
+            max-width: 1000px;
+            margin: 0 auto 3rem;
+        }
+        .emotion-btn {
+            position: relative;
+            border: none;
+            border-radius: 22px;
+            padding: 1.5rem 0.8rem 1.3rem;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.7rem;
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 0.65rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            font-weight: 700;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            outline: none;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+        }
+        .emotion-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 0.4s;
+            border-radius: inherit;
+            background: rgba(255, 255, 255, 0.14);
+        }
+        .emotion-btn:hover::before {
+            opacity: 1;
+        }
+        .emotion-btn:hover {
+            transform: translateY(-6px) scale(1.05);
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.55);
+        }
+        .emotion-btn.active {
+            transform: translateY(-8px) scale(1.08);
+            box-shadow: 0 20px 60px rgba(212, 168, 67, 0.35);
+        }
+        .emotion-emoji {
+            font-size: 2.2rem;
+            display: block;
+            transition: transform 0.4s;
+            filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
+        }
+        .emotion-btn:hover .emotion-emoji,
+        .emotion-btn.active .emotion-emoji {
+            transform: scale(1.2) rotate(-5deg);
+        }
+        .btn-feliz {
+            background: linear-gradient(145deg, #c8a700, #e8c840, #c8a700);
+            color: #3a2800;
+        }
+        .btn-enojado {
+            background: linear-gradient(145deg, #6b0080, #9b30b0, #6b0080);
+            color: #ffe0ff;
+        }
+        .btn-ansioso {
+            background: linear-gradient(145deg, #0050b0, #2070d0, #0050b0);
+            color: #e0f0ff;
+        }
+        .btn-triste {
+            background: linear-gradient(145deg, #0080b8, #30a8d8, #0080b8);
+            color: #e0f8ff;
+        }
+        .btn-solitario {
+            background: linear-gradient(145deg, #b0306a, #d050a0, #b0306a);
+            color: #fff0f8;
+        }
+        .btn-agradecido {
+            background: linear-gradient(145deg, #3a9020, #60b840, #3a9020);
+            color: #f0fff0;
+        }
+        .btn-fe {
+            background: linear-gradient(145deg, #6b3a1a, #9b5a2a, #6b3a1a);
+            color: #fff5e0;
+        }
+
+        /* ===== VERSE PANEL ===== */
+        .verse-panel {
+            max-width: 860px;
+            margin: 0 auto 4rem;
+            animation: panelIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+        }
+        @keyframes panelIn {
+            from {
+                opacity: 0;
+                transform: translateY(40px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        .verse-card {
+            border-radius: 28px;
+            padding: 3rem 2.5rem;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+        }
+        .theme-feliz {
+            background: linear-gradient(135deg, rgba(200, 167, 0, 0.18), rgba(232, 200, 64, 0.08));
+            border-color: rgba(200, 167, 0, 0.35);
+        }
+        .theme-enojado {
+            background: linear-gradient(135deg, rgba(107, 0, 128, 0.22), rgba(155, 48, 176, 0.08));
+            border-color: rgba(155, 48, 176, 0.35);
+        }
+        .theme-ansioso {
+            background: linear-gradient(135deg, rgba(0, 80, 176, 0.22), rgba(32, 112, 208, 0.08));
+            border-color: rgba(32, 112, 208, 0.35);
+        }
+        .theme-triste {
+            background: linear-gradient(135deg, rgba(0, 128, 184, 0.22), rgba(48, 168, 216, 0.08));
+            border-color: rgba(48, 168, 216, 0.35);
+        }
+        .theme-solitario {
+            background: linear-gradient(135deg, rgba(176, 48, 106, 0.22), rgba(208, 80, 160, 0.08));
+            border-color: rgba(208, 80, 160, 0.35);
+        }
+        .theme-agradecido {
+            background: linear-gradient(135deg, rgba(58, 144, 32, 0.22), rgba(96, 184, 64, 0.08));
+            border-color: rgba(96, 184, 64, 0.35);
+        }
+        .theme-fe {
+            background: linear-gradient(135deg, rgba(107, 58, 26, 0.22), rgba(155, 90, 42, 0.08));
+            border-color: rgba(155, 90, 42, 0.35);
+        }
+        .verse-card::before {
+            content: '✦';
+            position: absolute;
+            top: 1.2rem;
+            left: 1.5rem;
+            font-size: 1.5rem;
+            opacity: 0.25;
+            color: #d4a843;
+            animation: spin 8s linear infinite;
+        }
+        .verse-card::after {
+            content: '✦';
+            position: absolute;
+            bottom: 1.2rem;
+            right: 1.5rem;
+            font-size: 1.1rem;
+            opacity: 0.18;
+            color: #d4a843;
+            animation: spin 12s linear infinite reverse;
+        }
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        .emotion-label {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 0.7rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            opacity: 0.7;
+            color: #f0c96a;
+            margin-bottom: 0.6rem;
+            display: block;
+        }
+        .emotion-title {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: clamp(1.7rem, 4vw, 2.8rem);
+            font-weight: 700;
+            line-height: 1.15;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, #f0c96a, #fff8e7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .single-verse-wrap {
+            min-height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 0;
+        }
+        .single-verse {
+            position: relative;
+            text-align: center;
+            padding: 2rem 1.4rem;
+            border-left: 3px solid #d4a843;
+            border-right: 3px solid #d4a843;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 18px;
+            max-width: 720px;
+            animation: verseReveal 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+        @keyframes verseReveal {
+            0% {
+                opacity: 0;
+                transform: translateY(20px) scale(0.96);
+                filter: blur(8px);
+            }
+            60% {
+                filter: blur(0);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+                filter: blur(0);
+            }
+        }
+        .quote-mark {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 4rem;
+            line-height: 0.4;
+            color: #d4a843;
+            opacity: 0.5;
+            display: block;
+            margin-bottom: 0.6rem;
+        }
+        .single-verse-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: clamp(1.25rem, 2.6vw, 1.7rem);
+            color: rgba(255, 255, 255, 0.95);
+            line-height: 1.55;
+            font-weight: 300;
+            margin-bottom: 1.2rem;
+        }
+        .single-verse-ref {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 0.75rem;
+            letter-spacing: 0.3em;
+            color: #f0c96a;
+            text-transform: uppercase;
+        }
+        .verse-controls {
+            margin-top: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.9rem;
+        }
+        .verse-next-btn {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 0.65rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            padding: 0.8rem 1.8rem;
+            border-radius: 50px;
+            background: linear-gradient(135deg, #d4a843, #f0c96a);
+            color: #1a1208;
+            border: none;
+            cursor: pointer;
+            font-weight: 700;
+            box-shadow: 0 6px 20px rgba(212, 168, 67, 0.3);
+            transition: all 0.3s;
+        }
+        .verse-next-btn:hover {
+            transform: translateY(-2px) scale(1.04);
+            box-shadow: 0 12px 30px rgba(212, 168, 67, 0.5);
+        }
+        .verse-dots {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .dot-mini {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: rgba(212, 168, 67, 0.25);
+            transition: all 0.35s;
+        }
+        .dot-mini.on {
+            background: #f0c96a;
+            box-shadow: 0 0 10px #f0c96a;
+            transform: scale(1.3);
+        }
+        .verse-message {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            color: rgba(255, 255, 255, 0.6);
+            text-align: center;
+            font-weight: 300;
+            font-style: italic;
+            line-height: 1.6;
+        }
+
+        /* ===== WALLPAPER GALLERY ===== */
+        .carousel {
+            position: relative;
+            max-width: 720px;
+            margin: 0 auto;
+            aspect-ratio: 4 / 5;
+            perspective: 1800px;
+            perspective-origin: 50% 50%;
+        }
+        .carousel-stage {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+        }
+        .carousel-card {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.65s cubic-bezier(0.65, 0, 0.35, 1);
+            will-change: transform;
+        }
+        .carousel-card.spin-next {
+            transform: rotateY(-180deg);
+        }
+        .carousel-card.spin-prev {
+            transform: rotateY(180deg);
+        }
+        .carousel-face {
+            position: absolute;
+            inset: 0;
+            border-radius: 18px;
+            overflow: hidden;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(212, 168, 67, 0.25);
+        }
+        .carousel-face img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .face-front {
+            transform: rotateY(0deg);
+        }
+        .face-back-next {
+            transform: rotateY(180deg);
+        }
+        .face-back-prev {
+            transform: rotateY(-180deg);
+        }
+        .page-overlay {
+            position: absolute;
+            inset: auto 0 0 0;
+            padding: 2rem 1.8rem 1.6rem;
+            background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.85));
+            color: #fff8e7;
+            text-align: center;
+        }
+        .page-verse {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: clamp(1.05rem, 2.2vw, 1.4rem);
+            line-height: 1.5;
+            color: #fff8e7;
+            text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8);
+            margin-bottom: 0.5rem;
+        }
+        .page-ref {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 0.65rem;
+            letter-spacing: 0.3em;
+            color: #f0c96a;
+            text-transform: uppercase;
+        }
+        .book-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(10, 10, 18, 0.7);
+            border: 1px solid rgba(212, 168, 67, 0.4);
+            color: #f0c96a;
+            font-size: 1.6rem;
+            cursor: pointer;
+            z-index: 5;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+        .book-nav:hover {
+            background: rgba(212, 168, 67, 0.2);
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 6px 20px rgba(212, 168, 67, 0.4);
+        }
+        .book-nav.prev {
+            left: -22px;
+        }
+        .book-nav.next {
+            right: -22px;
+        }
+        .book-counter {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1.4rem;
+        }
+        .book-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(212, 168, 67, 0.25);
+            transition: all 0.35s;
+        }
+        .book-dot.on {
+            background: #f0c96a;
+            box-shadow: 0 0 10px #f0c96a;
+            transform: scale(1.3);
+        }
+        .book-download {
+            display: inline-flex;
+            margin: 1.4rem auto 0;
+            left: 50%;
+            position: relative;
+            transform: translateX(-50%);
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 0.6rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            padding: 0.7rem 1.4rem;
+            border-radius: 50px;
+            background: rgba(212, 168, 67, 0.12);
+            border: 1px solid rgba(212, 168, 67, 0.4);
+            color: #f0c96a;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        .book-download:hover {
+            background: rgba(212, 168, 67, 0.22);
+            transform: translateX(-50%) translateY(-2px);
+        }
+
+        /* ===== FEATURES ===== */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.6rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .feature-card {
+            padding: 2rem 1.6rem;
+            border-radius: 22px;
+            background: linear-gradient(160deg, rgba(255, 255, 255, 0.04), rgba(212, 168, 67, 0.04));
+            border: 1px solid rgba(212, 168, 67, 0.15);
+            transition: transform 0.4s, box-shadow 0.4s, border-color 0.4s;
+        }
+        .feature-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(212, 168, 67, 0.45);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+        .feature-icon {
+            font-size: 2.2rem;
+            margin-bottom: 0.8rem;
+            display: inline-block;
+            filter: drop-shadow(0 0 12px rgba(212, 168, 67, 0.4));
+        }
+        .feature-title {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 0.95rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: #f0c96a;
+            margin-bottom: 0.7rem;
+            font-weight: 700;
+        }
+        .feature-text {
+            color: rgba(255, 255, 255, 0.65);
+            font-size: 1.05rem;
+            line-height: 1.6;
+            font-style: italic;
+            font-weight: 300;
+        }
+
+        /* ===== PRAYER CTA ===== */
+        .cta {
+            position: relative;
+            padding: 6rem 1.5rem;
+            overflow: hidden;
+            text-align: center;
+        }
+        .cta-bg {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+        }
+        .cta-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.4;
+        }
+        .cta-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, #0a0a12 0%, rgba(10, 10, 18, 0.5) 50%, #0a0a12 100%);
+        }
+        .cta-inner {
+            position: relative;
+            z-index: 2;
+            max-width: 720px;
+            margin: 0 auto;
+        }
+        .cta-title {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 700;
+            background: linear-gradient(135deg, #f0c96a, #fff8e7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+        .cta-sub {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.7rem;
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 0.7rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            padding: 1rem 2.2rem;
+            border-radius: 50px;
+            background: linear-gradient(135deg, #d4a843, #f0c96a);
+            color: #1a1208;
+            border: none;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.4s;
+            box-shadow: 0 10px 30px rgba(212, 168, 67, 0.35);
+        }
+        .cta-btn:hover {
+            transform: translateY(-3px) scale(1.04);
+            box-shadow: 0 18px 50px rgba(212, 168, 67, 0.55);
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            text-align: center;
+            padding: 3rem 1.5rem 2rem;
+            border-top: 1px solid rgba(212, 168, 67, 0.15);
+            margin-top: 2rem;
+        }
+        .footer-cross {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 1.8rem;
+            color: #d4a843;
+            animation: breathe 6s ease-in-out infinite;
+            display: inline-block;
+        }
+        .footer-text {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 0.6rem;
+            letter-spacing: 0.4em;
+            color: rgba(255, 255, 255, 0.3);
+            text-transform: uppercase;
+            margin-top: 1rem;
+        }
+        .footer-verse {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            color: rgba(255, 255, 255, 0.45);
+            margin-top: 0.6rem;
+            font-size: 1rem;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            .hamburger {
+                display: flex;
+            }
+            .mobile-drawer {
+                display: block;
+            }
+            .navbar {
+                padding: 0 1.2rem;
+            }
+            .header-stats {
+                gap: 1.4rem;
+            }
+            .stat-sep {
+                display: none;
+            }
+            .book-nav.prev {
+                left: 6px;
+            }
+            .book-nav.next {
+                right: 6px;
+            }
+            .book-nav {
+                width: 40px;
+                height: 40px;
+                font-size: 1.3rem;
+            }
+            .page-overlay {
+                padding: 1.4rem 1rem 1.2rem;
+            }
+        }
+        @media (max-width: 500px) {
+            .emotion-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.8rem;
+            }
+            .emotion-btn {
+                padding: 1.2rem 0.5rem 1rem;
+                font-size: 0.55rem;
+            }
+            .emotion-emoji {
+                font-size: 1.8rem;
+            }
+            .verse-card {
+                padding: 2rem 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== FONDOS ===== -->
+    <canvas id="particles"></canvas>
+    <div class="bg-glow"></div>
+    <div class="cross-watermark">✝</div>
+    <div class="beam"></div>
+    <div class="beam"></div>
+    <div class="beam"></div>
+
+    <div class="wrapper">
+
+        <!-- ===== NAVBAR ===== -->
+        <nav class="navbar">
+            <a class="navbar-brand" href="#top">
+                <span class="brand-logo">📖</span>
+                Palabra de Dios
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#top">Inicio</a></li>
+                <li id="emoDropdown">
+                    <button onclick="toggleDropdown('emo')">
+                        Emociones <span class="nav-arrow">▼</span>
+                    </button>
+                    <div class="dropdown" id="emoDropdownMenu">
+                        <button onclick="selectEmotion('feliz')"><span class="dropdown-icon">🌻</span> Feliz</button>
+                        <button onclick="selectEmotion('enojado')"><span class="dropdown-icon">🌪️</span> Enojado</button>
+                        <button onclick="selectEmotion('ansioso')"><span class="dropdown-icon">🌊</span> Ansioso</button>
+                        <button onclick="selectEmotion('triste')"><span class="dropdown-icon">🌧️</span> Triste</button>
+                        <button onclick="selectEmotion('solitario')"><span class="dropdown-icon">🌸</span> Solitario</button>
+                        <button onclick="selectEmotion('agradecido')"><span class="dropdown-icon">🌿</span> Agradecido</button>
+                        <button onclick="selectEmotion('fe')"><span class="dropdown-icon">✝️</span> Fe</button>
+                    </div>
+                </li>
+                <li id="libDropdown">
+                    <button onclick="toggleDropdown('lib')">
+                        Libros <span class="nav-arrow">▼</span>
+                    </button>
+                    <div class="dropdown" id="libDropdownMenu">
+                        <a href="#"><span class="dropdown-icon">📖</span> Salmos</a>
+                        <a href="#"><span class="dropdown-icon">📖</span> Proverbios</a>
+                        <a href="#"><span class="dropdown-icon">📖</span> Evangelios</a>
+                        <a href="#"><span class="dropdown-icon">📖</span> Epístolas</a>
+                    </div>
+                </li>
+                <li><a href="#galeria">Galería</a></li>
+                <li><a href="#oracion">Oración</a></li>
+                <li><a href="#about">Acerca de</a></li>
+            </ul>
+            <button class="hamburger" id="hamburger" onclick="toggleMobile()" aria-label="Menú">
+                <span></span><span></span><span></span>
+            </button>
+        </nav>
+
+        <!-- ===== MENÚ MÓVIL ===== -->
+        <div class="mobile-drawer" id="mobileDrawer">
+            <span class="drawer-section">✦ Emociones</span>
+            <button onclick="selectEmotion('feliz'); closeMobile()"><span class="dropdown-icon">🌻</span> Feliz</button>
+            <button onclick="selectEmotion('enojado'); closeMobile()"><span class="dropdown-icon">🌪️</span> Enojado</button>
+            <button onclick="selectEmotion('ansioso'); closeMobile()"><span class="dropdown-icon">🌊</span> Ansioso</button>
+            <button onclick="selectEmotion('triste'); closeMobile()"><span class="dropdown-icon">🌧️</span> Triste</button>
+            <button onclick="selectEmotion('solitario'); closeMobile()"><span class="dropdown-icon">🌸</span> Solitario</button>
+            <button onclick="selectEmotion('agradecido'); closeMobile()"><span class="dropdown-icon">🌿</span> Agradecido</button>
+            <button onclick="selectEmotion('fe'); closeMobile()"><span class="dropdown-icon">✝️</span> Fe</button>
+            <span class="drawer-section">✦ Navegación</span>
+            <a href="#galeria" onclick="closeMobile()">🌿 Galería</a>
+            <a href="#oracion" onclick="closeMobile()">🙏 Oración</a>
+            <a href="#about" onclick="closeMobile()">✨ Acerca de</a>
+        </div>
+
+        <!-- ===== HERO ===== -->
+        <section class="hero" id="top">
+            <div class="hero-bg">
+                <img src="https://images.unsplash.com/photo-1504052434569-70ad5836ab2e?w=1536&h=1024&fit=crop" alt="" width="1536" height="1024" />
+            </div>
+            <div class="hero-content">
+                <div class="verse-of-day">
+                    <span class="dot"></span>
+                    <span>Versículo del día · <span id="heroVerseRef">Salmo 118:24</span></span>
+                </div>
+                <div class="header-eyebrow">Sagradas Escrituras</div>
+                <h1 class="hero-title">La Palabra de Dios</h1>
+                <p class="subtitle">
+                    "Lámpara es a mis pies tu palabra, y lumbrera a mi camino." — Una experiencia espiritual para
+                    encontrar consuelo, guía y esperanza en cada emoción.
+                </p>
+                <div class="header-stats">
+                    <div class="stat-item"><div class="stat-number">7</div><div class="stat-label">Emociones</div></div>
+                    <div class="stat-sep"></div>
+                    <div class="stat-item"><div class="stat-number">40+</div><div class="stat-label">Versículos</div></div>
+                    <div class="stat-sep"></div>
+                    <div class="stat-item"><div class="stat-number">∞</div><div class="stat-label">Esperanza</div></div>
+                </div>
+            </div>
+            <a href="#emociones" class="scroll-cue">Descubre ↓</a>
+        </section>
+
+        <!-- ===== EMOCIONES ===== -->
+        <section class="section" id="emociones">
+            <div class="section-eyebrow">✦ Tu corazón hoy</div>
+            <h2 class="section-title">¿Cómo te sientes?</h2>
+            <p class="section-sub">Elige la emoción que habita en ti y deja que la Palabra te hable directamente al alma.</p>
+            <div class="divider"></div>
+            <p class="question">Toca un sentimiento para recibir un mensaje</p>
+
+            <div class="emotion-grid">
+                <button class="emotion-btn btn-feliz" onclick="selectEmotion('feliz')">
+                    <span class="emotion-emoji">🌻</span> Feliz
+                </button>
+                <button class="emotion-btn btn-enojado" onclick="selectEmotion('enojado')">
+                    <span class="emotion-emoji">🌪️</span> Enojado
+                </button>
+                <button class="emotion-btn btn-ansioso" onclick="selectEmotion('ansioso')">
+                    <span class="emotion-emoji">🌊</span> Ansioso
+                </button>
+                <button class="emotion-btn btn-triste" onclick="selectEmotion('triste')">
+                    <span class="emotion-emoji">🌧️</span> Triste
+                </button>
+                <button class="emotion-btn btn-solitario" onclick="selectEmotion('solitario')">
+                    <span class="emotion-emoji">🌸</span> Solitario
+                </button>
+                <button class="emotion-btn btn-agradecido" onclick="selectEmotion('agradecido')">
+                    <span class="emotion-emoji">🌿</span> Agradecido
+                </button>
+                <button class="emotion-btn btn-fe" onclick="selectEmotion('fe')">
+                    <span class="emotion-emoji">✝️</span> Fe
+                </button>
+            </div>
+
+            <!-- Panel de versículo (se muestra al seleccionar) -->
+            <div id="versePanel" style="display: none;"></div>
+        </section>
+
+        <!-- ===== GALERÍA ===== -->
+        <section class="section" id="galeria">
+            <div class="section-eyebrow">✦ Fondos sagrados</div>
+            <h2 class="section-title">Galería de naturaleza</h2>
+            <p class="section-sub">
+                Hojea como si abrieras un libro sagrado. Cada página revela la creación con un versículo
+                para inspirar tu día — perfecto como fondo de pantalla.
+            </p>
+
+            <div class="carousel" id="carousel">
+                <div class="carousel-stage">
+                    <div class="carousel-card" id="carouselCard">
+                        <div class="carousel-face face-front" id="faceFront">
+                            <img id="frontImg" src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&h=1000&fit=crop" alt="" />
+                            <div class="page-overlay">
+                                <p class="page-verse" id="frontVerse">"Alzaré mis ojos a los montes; ¿de dónde vendrá mi socorro?"</p>
+                                <div class="page-ref" id="frontRef">— Salmo 121:1</div>
+                            </div>
+                        </div>
+                        <div class="carousel-face face-back-next" id="faceBack">
+                            <img id="backImg" src="https://images.unsplash.com/photo-1470071459604-7b8ec44ffd7b?w=800&h=1000&fit=crop" alt="" />
+                            <div class="page-overlay">
+                                <p class="page-verse" id="backVerse">"Aun sobre las aguas su voz; el Dios de gloria hizo tronar."</p>
+                                <div class="page-ref" id="backRef">— Salmo 29:3</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="book-nav prev" onclick="prevWallpaper()" aria-label="Anterior">‹</button>
+                <button class="book-nav next" onclick="nextWallpaper()" aria-label="Siguiente">›</button>
+                <div class="book-counter" id="bookCounter"></div>
+                <a href="#" download class="book-download" id="downloadLink">↓ Descargar fondo</a>
+            </div>
+        </section>
+
+        <!-- ===== ACERCA DE ===== -->
+        <section class="section" id="about">
+            <div class="section-eyebrow">✦ Tu refugio espiritual</div>
+            <h2 class="section-title">Una experiencia sagrada</h2>
+            <p class="section-sub">Diseñado con devoción para acompañarte en cada paso de tu camino de fe.</p>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📖</div>
+                    <div class="feature-title">Versículos curados</div>
+                    <p class="feature-text">Pasajes seleccionados con esmero, organizados por emoción para hablar directamente a tu corazón.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🕊️</div>
+                    <div class="feature-title">Paz inmediata</div>
+                    <p class="feature-text">Encuentra consuelo y guía en segundos, sin importar dónde estés ni cómo te sientas.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">✨</div>
+                    <div class="feature-title">Inspiración diaria</div>
+                    <p class="feature-text">Un versículo nuevo cada día para iluminar tu camino y fortalecer tu espíritu.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🙏</div>
+                    <div class="feature-title">Oración y meditación</div>
+                    <p class="feature-text">Espacios sagrados para conectar con lo divino y cultivar tu vida interior.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== ORACIÓN ===== -->
+        <section class="cta" id="oracion">
+            <div class="cta-bg">
+                <img src="https://images.unsplash.com/photo-1519659383-e2f3fc4190b8?w=1024&h=1024&fit=crop" alt="" loading="lazy" />
+            </div>
+            <div class="cta-inner">
+                <div class="section-eyebrow">✦ Un momento contigo</div>
+                <h2 class="cta-title">Toma un instante para orar</h2>
+                <p class="cta-sub">
+                    "Acercaos a Dios, y Él se acercará a vosotros." — Santiago 4:8. Detén el mundo por un momento
+                    y entrega tu corazón en oración.
+                </p>
+                <button class="cta-btn" onclick="selectEmotion('fe')">Comenzar oración ✦</button>
+            </div>
+        </section>
+
+        <!-- ===== FOOTER ===== -->
+        <footer>
+            <div class="footer-cross">✝</div>
+            <p class="footer-verse">"Tu palabra es verdad." — Juan 17:17</p>
+            <p class="footer-text">Palabra de Dios · <span id="year"></span></p>
+        </footer>
+
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- ===== JAVASCRIPT ===== -->
+    <!-- ============================================================ -->
+    <script>
+        // ============================================================
+        // DATOS
+        // ============================================================
+        const EMOTIONS = {
+            feliz: {
+                label: "Feliz",
+                emoji: "🌻",
+                title: "El gozo del Señor es tu fortaleza",
+                message: "Que tu alegría sea un reflejo de la gracia divina que habita en ti.",
+                verses: [
+                    { text: "Este es el día que hizo Jehová; nos gozaremos y alegraremos en él.", ref: "Salmo 118:24" },
+                    { text: "Estad siempre gozosos. Orad sin cesar. Dad gracias en todo.", ref: "1 Tesalonicenses 5:16-18" },
+                    { text: "El corazón alegre constituye buen remedio.", ref: "Proverbios 17:22" },
+                    { text: "Me mostrarás la senda de la vida; en tu presencia hay plenitud de gozo.", ref: "Salmo 16:11" },
+                    { text: "El gozo de Jehová es vuestra fuerza.", ref: "Nehemías 8:10" },
+                    { text: "Regocijaos en el Señor siempre. Otra vez digo: ¡Regocijaos!", ref: "Filipenses 4:4" },
+                    { text: "Tú cambiaste mi lamento en baile; me ceñiste de alegría.", ref: "Salmo 30:11" },
+                ]
+            },
+            enojado: {
+                label: "Enojado",
+                emoji: "🌪️",
+                title: "Encuentra paz en medio de la tormenta",
+                message: "Permite que la sabiduría divina calme las olas de tu corazón.",
+                verses: [
+                    { text: "Airaos, pero no pequéis; no se ponga el sol sobre vuestro enojo.", ref: "Efesios 4:26" },
+                    { text: "La blanda respuesta quita la ira; mas la palabra áspera hace subir el furor.", ref: "Proverbios 15:1" },
+                    { text: "El que tarda en airarse es grande de entendimiento.", ref: "Proverbios 14:29" },
+                    { text: "Deja la ira, y desecha el enojo; no te excites en manera alguna a hacer lo malo.", ref: "Salmo 37:8" },
+                    { text: "Mejor es el que tarda en airarse que el fuerte.", ref: "Proverbios 16:32" },
+                    { text: "Todo hombre sea pronto para oír, tardo para hablar, tardo para airarse.", ref: "Santiago 1:19" },
+                ]
+            },
+            ansioso: {
+                label: "Ansioso",
+                emoji: "🌊",
+                title: "Echa toda tu ansiedad sobre Él",
+                message: "Sus brazos eternos sostienen aquello que tu corazón no puede cargar solo.",
+                verses: [
+                    { text: "Por nada estéis afanosos, sino sean conocidas vuestras peticiones delante de Dios en toda oración.", ref: "Filipenses 4:6" },
+                    { text: "Echando toda vuestra ansiedad sobre Él, porque Él tiene cuidado de vosotros.", ref: "1 Pedro 5:7" },
+                    { text: "Venid a mí todos los que estáis trabajados y cargados, y yo os haré descansar.", ref: "Mateo 11:28" },
+                    { text: "La paz os dejo, mi paz os doy; no se turbe vuestro corazón, ni tenga miedo.", ref: "Juan 14:27" },
+                    { text: "No temas, porque yo estoy contigo; no desmayes, porque yo soy tu Dios que te esfuerzo.", ref: "Isaías 41:10" },
+                    { text: "Jehová peleará por vosotros, y vosotros estaréis tranquilos.", ref: "Éxodo 14:14" },
+                ]
+            },
+            triste: {
+                label: "Triste",
+                emoji: "🌧️",
+                title: "Cercano está Jehová a los quebrantados",
+                message: "Tus lágrimas no caen en vano; cada una es contada en el cielo.",
+                verses: [
+                    { text: "Cercano está Jehová a los quebrantados de corazón; y salva a los contritos de espíritu.", ref: "Salmo 34:18" },
+                    { text: "Bienaventurados los que lloran, porque ellos recibirán consolación.", ref: "Mateo 5:4" },
+                    { text: "Por la noche durará el lloro, y a la mañana vendrá la alegría.", ref: "Salmo 30:5" },
+                    { text: "Enjugará Dios toda lágrima de los ojos de ellos.", ref: "Apocalipsis 21:4" },
+                    { text: "Él sana a los quebrantados de corazón, y venda sus heridas.", ref: "Salmo 147:3" },
+                    { text: "Mis lágrimas pones tú en tu redoma; ¿no están ellas en tu libro?", ref: "Salmo 56:8" },
+                ]
+            },
+            solitario: {
+                label: "Solitario",
+                emoji: "🌸",
+                title: "Nunca estás verdaderamente solo",
+                message: "Aún en el silencio, su presencia es un susurro constante de amor.",
+                verses: [
+                    { text: "No te dejaré, ni te desampararé.", ref: "Hebreos 13:5" },
+                    { text: "He aquí yo estoy con vosotros todos los días, hasta el fin del mundo.", ref: "Mateo 28:20" },
+                    { text: "Cuando mi padre y mi madre me dejaren, con todo, Jehová me recogerá.", ref: "Salmo 27:10" },
+                    { text: "Aunque ande en valle de sombra de muerte, no temeré mal alguno, porque tú estarás conmigo.", ref: "Salmo 23:4" },
+                    { text: "Dios hace habitar en familia a los desamparados.", ref: "Salmo 68:6" },
+                    { text: "Mira que te mando que te esfuerces y seas valiente; porque Jehová tu Dios estará contigo en dondequiera que vayas.", ref: "Josué 1:9" },
+                ]
+            },
+            agradecido: {
+                label: "Agradecido",
+                emoji: "🌿",
+                title: "Da gracias en todo tiempo",
+                message: "La gratitud es el lenguaje del alma que reconoce cada bendición.",
+                verses: [
+                    { text: "Alabad a Jehová, porque Él es bueno; porque para siempre es su misericordia.", ref: "Salmo 107:1" },
+                    { text: "Dad gracias en todo, porque esta es la voluntad de Dios para con vosotros.", ref: "1 Tesalonicenses 5:18" },
+                    { text: "Toda buena dádiva y todo don perfecto desciende de lo alto.", ref: "Santiago 1:17" },
+                    { text: "Entrad por sus puertas con acción de gracias, por sus atrios con alabanza.", ref: "Salmo 100:4" },
+                    { text: "Bendice, alma mía, a Jehová, y bendiga todo mi ser su santo nombre.", ref: "Salmo 103:1" },
+                    { text: "Gracias a Dios por su don inefable.", ref: "2 Corintios 9:15" },
+                ]
+            },
+            fe: {
+                label: "Fe",
+                emoji: "✝️",
+                title: "Camina por fe, no por vista",
+                message: "La fe es la certeza de lo que se espera, la convicción de lo que no se ve.",
+                verses: [
+                    { text: "Es, pues, la fe la certeza de lo que se espera, la convicción de lo que no se ve.", ref: "Hebreos 11:1" },
+                    { text: "Si tuviereis fe como un grano de mostaza, nada os será imposible.", ref: "Mateo 17:20" },
+                    { text: "Porque por fe andamos, no por vista.", ref: "2 Corintios 5:7" },
+                    { text: "Todo lo puedo en Cristo que me fortalece.", ref: "Filipenses 4:13" },
+                    { text: "Al que cree todo le es posible.", ref: "Marcos 9:23" },
+                    { text: "Jehová es mi luz y mi salvación; ¿de quién temeré?", ref: "Salmo 27:1" },
+                ]
+            }
+        };
+
+        const EMOTION_ORDER = ["feliz", "enojado", "ansioso", "triste", "solitario", "agradecido", "fe"];
+
+        const WALLPAPERS = [
+            { img: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&h=1000&fit=crop",
+                verse: "Alzaré mis ojos a los montes; ¿de dónde vendrá mi socorro?", ref: "Salmo 121:1" },
+            { img: "https://images.unsplash.com/photo-1470071459604-7b8ec44ffd7b?w=800&h=1000&fit=crop",
+                verse: "Aun sobre las aguas su voz; el Dios de gloria hizo tronar.", ref: "Salmo 29:3" },
+            { img: "https://images.unsplash.com/photo-1440589473619-3cde28941638?w=800&h=1000&fit=crop",
+                verse: "Lámpara es a mis pies tu palabra, y lumbrera a mi camino.", ref: "Salmo 119:105" },
+            { img: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&h=1000&fit=crop",
+                verse: "Considerad los lirios del campo, cómo crecen: no trabajan ni hilan.", ref: "Mateo 6:28" },
+            { img: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800&h=1000&fit=crop",
+                verse: "Los cielos cuentan la gloria de Dios, y el firmamento anuncia la obra de sus manos.", ref: "Salmo 19:1" },
+            { img: "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=800&h=1000&fit=crop",
+                verse: "Junto a aguas de reposo me pastoreará. Confortará mi alma.", ref: "Salmo 23:2-3" },
+        ];
+
+        const EMOTION_COLORS = {
+            feliz: { r: 240, g: 201, b: 106 },
+            enojado: { r: 200, g: 80, b: 220 },
+            ansioso: { r: 90, g: 150, b: 255 },
+            triste: { r: 80, g: 200, b: 240 },
+            solitario: { r: 230, g: 110, b: 180 },
+            agradecido: { r: 120, g: 220, b: 110 },
+            fe: { r: 230, g: 170, b: 90 },
+        };
+        const DEFAULT_COLOR = { r: 240, g: 201, b: 106 };
+
+        // ============================================================
+        // VARIABLES DE ESTADO
+        // ============================================================
+        let selectedEmotion = null;
+        let currentVerseIndex = 0;
+        let verseInterval = null;
+        let wallpaperIndex = 0;
+        let isSpinning = false;
+        let spinDir = 1;
+
+        // ============================================================
+        // PARTÍCULAS (Canvas)
+        // ============================================================
+        function initParticles() {
+            const canvas = document.getElementById('particles');
+            const ctx = canvas.getContext('2d');
+            let w = canvas.width = window.innerWidth;
+            let h = canvas.height = window.innerHeight;
+
+            const parts = Array.from({ length: 60 }, () => ({
+                x: Math.random() * w,
+                y: Math.random() * h,
+                r: Math.random() * 1.6 + 0.4,
+                vy: -(Math.random() * 0.3 + 0.05),
+                vx: (Math.random() - 0.5) * 0.15,
+                a: Math.random() * 0.5 + 0.2,
+            }));
+
+            let color = { ...DEFAULT_COLOR };
+            let targetColor = { ...DEFAULT_COLOR };
+
+            function tick() {
+                // Suavizar transición de color
+                color.r += (targetColor.r - color.r) * 0.04;
+                color.g += (targetColor.g - color.g) * 0.04;
+                color.b += (targetColor.b - color.b) * 0.04;
+                const rr = Math.round(color.r),
+                    gg = Math.round(color.g),
+                    bb = Math.round(color.b);
+
+                ctx.clearRect(0, 0, w, h);
+                for (const p of parts) {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    if (p.y < -5) { p.y = h + 5;
+                        p.x = Math.random() * w; }
+                    if (p.x < -5 || p.x > w + 5) p.x = Math.random() * w;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(${rr}, ${gg}, ${bb}, ${p.a})`;
+                    ctx.shadowBlur = 8;
+                    ctx.shadowColor = `rgba(${rr},${gg},${bb},0.65)`;
+                    ctx.fill();
+                }
+                requestAnimationFrame(tick);
+            }
+
+            // Exponer función para cambiar color
+            window.setParticleColor = function(emotionKey) {
+                targetColor = emotionKey ? EMOTION_COLORS[emotionKey] : { ...DEFAULT_COLOR };
+            };
+
+            tick();
+
+            window.addEventListener('resize', () => {
+                w = canvas.width = window.innerWidth;
+                h = canvas.height = window.innerHeight;
+            });
+        }
+
+        // ============================================================
+        // NAVBAR
+        // ============================================================
+        function toggleDropdown(type) {
+            const emoLi = document.getElementById('emoDropdown');
+            const libLi = document.getElementById('libDropdown');
+
+            if (type === 'emo') {
+                emoLi.classList.toggle('open');
+                libLi.classList.remove('open');
+            } else {
+                libLi.classList.toggle('open');
+                emoLi.classList.remove('open');
+            }
+        }
+
+        function toggleMobile() {
+            const drawer = document.getElementById('mobileDrawer');
+            const hamburger = document.getElementById('hamburger');
+            drawer.classList.toggle('open');
+            hamburger.classList.toggle('open');
+        }
+
+        function closeMobile() {
+            document.getElementById('mobileDrawer').classList.remove('open');
+            document.getElementById('hamburger').classList.remove('open');
+        }
+
+        // Cerrar dropdowns al hacer clic fuera
+        document.addEventListener('click', function(e) {
+            const nav = document.querySelector('.nav-links');
+            if (nav && !nav.contains(e.target)) {
+                document.querySelectorAll('.nav-links > li.open').forEach(el => el.classList.remove('open'));
+            }
+        });
+
+        // ============================================================
+        // SELECCIÓN DE EMOCIÓN
+        // ============================================================
+        function selectEmotion(key) {
+            selectedEmotion = key;
+            const data = EMOTIONS[key];
+
+            // Actualizar color de partículas
+            if (window.setParticleColor) window.setParticleColor(key);
+
+            // Actualizar botones activos
+            document.querySelectorAll('.emotion-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll(`.emotion-btn`).forEach(btn => {
+                if (btn.textContent.includes(data.label) || btn.innerHTML.includes(data.emoji)) {
+                    btn.classList.add('active');
+                }
+            });
+
+            // Mostrar panel
+            const panel = document.getElementById('versePanel');
+            panel.style.display = 'block';
+
+            // Limpiar intervalo anterior
+            if (verseInterval) clearInterval(verseInterval);
+
+            // Mostrar versículo aleatorio
+            currentVerseIndex = Math.floor(Math.random() * data.verses.length);
+            renderVerse(key);
+
+            // Auto-cambiar cada 7 segundos
+            verseInterval = setInterval(() => {
+                const verses = EMOTIONS[key].verses;
+                if (verses.length <= 1) return;
+                let next = currentVerseIndex;
+                while (next === currentVerseIndex) next = Math.floor(Math.random() * verses.length);
+                currentVerseIndex = next;
+                renderVerse(key);
+            }, 7000);
+
+            // Hacer scroll al panel
+            setTimeout(() => {
+                panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 100);
+
+            // Cerrar menús
+            document.querySelectorAll('.nav-links > li.open').forEach(el => el.classList.remove('open'));
+            closeMobile();
+        }
+
+        function renderVerse(key) {
+            const data = EMOTIONS[key];
+            const verse = data.verses[currentVerseIndex];
+            const panel = document.getElementById('versePanel');
+
+            panel.innerHTML = `
+                <div class="verse-panel">
+                    <div class="verse-card theme-${key}">
+                        <span class="emotion-label">${data.emoji} ${data.label}</span>
+                        <h3 class="emotion-title">${data.title}</h3>
+                        <div class="single-verse-wrap">
+                            <div class="single-verse">
+                                <span class="quote-mark">“</span>
+                                <p class="single-verse-text">${verse.text}</p>
+                                <div class="single-verse-ref">— ${verse.ref}</div>
+                            </div>
+                        </div>
+                        <div class="verse-controls">
+                            <button class="verse-next-btn" onclick="nextVerse()">Otro versículo ✦</button>
+                            <div class="verse-dots">
+                                ${data.verses.map((_, i) => `
+                                    <span class="dot-mini ${i === currentVerseIndex ? 'on' : ''}"></span>
+                                `).join('')}
+                            </div>
+                        </div>
+                        <p class="verse-message">${data.message}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function nextVerse() {
+            if (!selectedEmotion) return;
+            const data = EMOTIONS[selectedEmotion];
+            if (data.verses.length <= 1) return;
+            let next = currentVerseIndex;
+            while (next === currentVerseIndex) next = Math.floor(Math.random() * data.verses.length);
+            currentVerseIndex = next;
+            renderVerse(selectedEmotion);
+        }
+
+        // ============================================================
+        // VERSÍCULO DEL DÍA
+        // ============================================================
+        function getDayOfYear() {
+            const now = new Date();
+            const start = new Date(now.getFullYear(), 0, 1);
+            return Math.floor((now - start) / (1000 * 60 * 60 * 24));
+        }
+
+        function setVerseOfDay() {
+            const allVerses = EMOTION_ORDER.flatMap(k => EMOTIONS[k].verses);
+            const idx = getDayOfYear() % allVerses.length;
+            document.getElementById('heroVerseRef').textContent = allVerses[idx].ref;
+        }
+
+        // ============================================================
+        // GALERÍA DE WALLPAPERS (3D)
+        // ============================================================
+        function initWallpaperGallery() {
+            renderWallpaper();
+
+            // Generar dots
+            const counter = document.getElementById('bookCounter');
+            counter.innerHTML = WALLPAPERS.map((_, i) =>
+                `<span class="book-dot ${i === 0 ? 'on' : ''}" data-index="${i}"></span>`
+            ).join('');
+
+            // Click en dots
+            counter.querySelectorAll('.book-dot').forEach(dot => {
+                dot.addEventListener('click', function() {
+                    const idx = parseInt(this.dataset.index);
+                    if (idx !== wallpaperIndex) {
+                        const dir = idx > wallpaperIndex ? 1 : -1;
+                        goToWallpaper(idx, dir);
+                    }
+                });
+            });
+
+            // Actualizar link de descarga
+            updateDownloadLink();
+        }
+
+        function renderWallpaper() {
+            const current = WALLPAPERS[wallpaperIndex];
+            const nextIdx = (wallpaperIndex + 1) % WALLPAPERS.length;
+            const next = WALLPAPERS[nextIdx];
+
+            document.getElementById('frontImg').src = current.img;
+            document.getElementById('frontVerse').textContent = `"${current.verse}"`;
+            document.getElementById('frontRef').textContent = `— ${current.ref}`;
+
+            document.getElementById('backImg').src = next.img;
+            document.getElementById('backVerse').textContent = `"${next.verse}"`;
+            document.getElementById('backRef').textContent = `— ${next.ref}`;
+
+            // Actualizar dots
+            document.querySelectorAll('.book-dot').forEach((dot, i) => {
+                dot.classList.toggle('on', i === wallpaperIndex);
+            });
+
+            updateDownloadLink();
+        }
+
+        function updateDownloadLink() {
+            const link = document.getElementById('downloadLink');
+            link.href = WALLPAPERS[wallpaperIndex].img;
+        }
+
+        function nextWallpaper() {
+            goToWallpaper((wallpaperIndex + 1) % WALLPAPERS.length, 1);
+        }
+
+        function prevWallpaper() {
+            goToWallpaper((wallpaperIndex - 1 + WALLPAPERS.length) % WALLPAPERS.length, -1);
+        }
+
+        function goToWallpaper(index, dir) {
+            if (isSpinning || index === wallpaperIndex) return;
+            isSpinning = true;
+            spinDir = dir;
+
+            const card = document.getElementById('carouselCard');
+            // Actualizar la cara trasera con la nueva imagen
+            const nextIdx = index;
+            const next = WALLPAPERS[nextIdx];
+            document.getElementById('backImg').src = next.img;
+            document.getElementById('backVerse').textContent = `"${next.verse}"`;
+            document.getElementById('backRef').textContent = `— ${next.ref}`;
+
+            // Animar
+            card.classList.remove('spin-next', 'spin-prev');
+            void card.offsetHeight; // trigger reflow
+            card.classList.add(dir === 1 ? 'spin-next' : 'spin-prev');
+
+            setTimeout(() => {
+                wallpaperIndex = index;
+                renderWallpaper();
+                card.classList.remove('spin-next', 'spin-prev');
+                isSpinning = false;
+            }, 650);
+        }
+
+        // ============================================================
+        // AÑO EN FOOTER
+        // ============================================================
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // ============================================================
+        // INICIALIZACIÓN
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            initParticles();
+            setVerseOfDay();
+            initWallpaperGallery();
+        });
+    </script>
+
+</body>
+</html>
